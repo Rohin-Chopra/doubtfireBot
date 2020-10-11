@@ -7,7 +7,11 @@ import re
 class DoubtfireScraper:
     def __init__(self):
         self.url = "https://doubtfire.ict.swin.edu.au"
-        self.driver = webdriver.Chrome("./chromedriver")
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.binary_location = os.environ["GOOGLE_CHROME_PATH"]
+        self.driver = webdriver.Chrome(execution_path=os.environ["CHROMEDRIVER_PATH"], chrome_options=chrome_options)
 
     def refresh(self):
         self.driver.refresh()
