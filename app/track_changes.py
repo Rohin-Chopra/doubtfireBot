@@ -31,6 +31,8 @@ class DoubtfireTrackChanges:
                     f"SELECT * FROM tasks WHERE unit_id = '{unit_id}' AND task_number='{task_name}'"
                 )
                 if self.cursor.fetchall()[0][1] != task_status:
+                    print('found one changed')
+                    print(task)
                     email = EmailSender(
                         "rohin", unit_id, task_name, task_status, "message.txt"
                     )
@@ -41,8 +43,10 @@ class DoubtfireTrackChanges:
                     self.cursor.execute("COMMIT")
                     
     def check_task_status_changed_at(self, get_units, send_time):
+        print('about to sleep')
         time.sleep(send_time.timestamp() - time.time())
-        units = get_units()
         print("Scanning for changes now")
+        units = get_units()
+        print(units)
         self.check_task_status_changed(units)
         print("scanned for changes")
