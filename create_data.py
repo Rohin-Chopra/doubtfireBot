@@ -5,7 +5,7 @@ from app.models import Models
 
 DATABASE_URL = os.environ['DATABASE_URL']
 mydb = psycopg2.connect(DATABASE_URL, sslmode='require')
-cursor = mydb.cursor(buffered=True)
+cursor = mydb.cursor()
 
 
 models = Models(cursor)
