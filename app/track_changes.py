@@ -18,6 +18,7 @@ class DoubtfireTrackChanges:
         self.cursor.execute("SELECT * FROM units")
 
     def check_task_status_changed(self, units):
+        print("tracking changes in task status")
         for unit in units:
             unit_id = unit["id"]
             unit_url = unit["url"]

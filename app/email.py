@@ -3,10 +3,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from string import Template
 
-SENDER_EMAIL = "rohinpython@gmail.com"
-RECEIVER_EMAIL = "rohinchopra1212@gmail.com"
-
-
 class EmailSender:
     def __init__(self, name, unit_name, task_no, status, filename):
         self.name = name
@@ -14,8 +10,8 @@ class EmailSender:
         self.status = status
         self.unit_name = unit_name
         self.filename = filename
-        self.SENDER_EMAIL = SENDER_EMAIL
-        self.RECEIVER_EMAIL = RECEIVER_EMAIL
+        self.SENDER_EMAIL = "rohinpython@gmail.com"
+        self.RECEIVER_EMAIL = "rohinchopra1212@gmail.com"
 
     def read_template(self):
         with open(self.filename, "r", encoding="utf-8") as file:
