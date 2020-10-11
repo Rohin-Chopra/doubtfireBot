@@ -1,7 +1,5 @@
-import mysql.connector
 from app.email import EmailSender
 import time
-
 
 class DoubtfireTrackChanges:
     def __init__(self, cursor):
@@ -39,27 +37,10 @@ class DoubtfireTrackChanges:
                         f"UPDATE tasks SET task_status = '{task_status}' WHERE task_number = '{task_name}'"
                     )
                     self.cursor.execute("COMMIT")
-    def create_tasks(self, units):
-        for unit in units:
-            unit_id = unit["id"]
-            unit_url = unit["url"]
-            unit_tasks = unit["tasks"]
-            for task in unit_tasks:
-                task_name = task["name"]
-                task_status = task["status"]
-                self.cursor.execute(
-                    f"SELECT * FROM tasks WHERE unit_id = '{unit_id}' AND task_number='{task_name}'"
-                )
-                if self.cursor.rowcount == 0:
-                    self.cursor.execute(
-                        f"INSERT INTO tasks (task_number,task_status,unit_id) VALUES('{task_name}','{task_status}','{unit_id}')"
-                    )
-        self.cursor.execute("COMMIT")
-        print("tasks have been created")
-        
-    def check_task_status_changed_at(self, func, send_time):
+                    
+    def check_task_status_changed_at(self, get_units, send_time):
         time.sleep(send_time.timestamp() - time.time())
-        units = func()
+        units = get_units()
         print("Scanning for changes now")
         self.check_task_status_changed(units)
         print("scanned for changes")

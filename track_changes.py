@@ -8,21 +8,12 @@ from app.models import Models
 
 DATABASE_URL = os.environ['DATABASE_URL']
 mydb = psycopg2.connect(DATABASE_URL, sslmode='require')
-cursor = mydb.cursor(buffered=True)
-
-
-models = Models(cursor)
-models.create_tables()
+cursor = mydb.cursor()
 
 ds = DoubtfireScraper()
 ds.login()
 
-units = ds.find_units()
-models.create_units(units)
-
 units_with_tasks = ds.find_units_tasks(units)
-models.create_tasks(units_with_tasks)
-
 
 first_scan_time = dt.datetime.now() + dt.timedelta(
     minutes=2
@@ -32,6 +23,4 @@ interval = dt.timedelta(minutes=2)  # set the interval for sending the email
 scan_time = first_scan_time
 dtc = DoubtfireTrackChanges(cursor)
 
-while True:
-    dtc.check_task_status_changed_at(partial(ds.find_units_tasks,units), scan_time)
-    scan_time += interval
+dtc.check_task_status_changed_at(partial(ds.find_units_tasks,units_with_tasks), scan_time)
