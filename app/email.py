@@ -34,7 +34,7 @@ class EmailSender:
         message["From"] = self.SENDER_EMAIL
         message["To"] = self.RECEIVER_EMAIL
         message["Subject"] = "Status Changed"
-        message.attach(MIMEText(body, "plain"))
+        # message.attach(MIMEText(body, "plain"))
         return message
 
     def start_server(self):
@@ -62,7 +62,9 @@ class EmailSender:
 
     def send(self):
         # server = self.start_server()
+        print('sending email')
         body = self.replace_values(self.read_template())
-        message = self.create_message(body)
+        # message = self.create_message(body)
         # self.send_message(server, message)
-        self.send_message_send_grid(message)
+        self.send_message_send_grid(body)
+        print('sent')

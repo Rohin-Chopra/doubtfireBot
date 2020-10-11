@@ -7,6 +7,7 @@ class DoubtfireTrackChanges:
 
     def check_units_changed(self, units):
         for unit in units:
+            print(f'checking unit: {unit["id"]}')
             unit_id = unit["id"]
             unit_url = unit["url"]
             self.cursor.execute(f"SELECT * FROM units WHERE unit_id = '{unit_id}'")
