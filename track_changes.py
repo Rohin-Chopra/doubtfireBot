@@ -20,7 +20,6 @@ first_scan_time = dt.datetime.now() + dt.timedelta(
 )  # set your sending time in UTC
 interval = dt.timedelta(minutes=2)  # set the interval for sending the email
 
-scan_time = first_scan_time
 dtc = DoubtfireTrackChanges(cursor)
 
-dtc.check_task_status_changed_at(partial(ds.find_units_tasks,units_with_tasks), scan_time)
+dtc.check_task_status_changed_at(units_with_tasks)

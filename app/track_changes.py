@@ -38,9 +38,3 @@ class DoubtfireTrackChanges:
                     )
                     self.cursor.execute("COMMIT")
                     
-    def check_task_status_changed_at(self, get_units, send_time):
-        time.sleep(send_time.timestamp() - time.time())
-        units = get_units()
-        print("Scanning for changes now")
-        self.check_task_status_changed(units)
-        print("scanned for changes")
