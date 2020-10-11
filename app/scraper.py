@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 import re
-
+import os
 
 class DoubtfireScraper:
     def __init__(self):
