@@ -22,4 +22,4 @@ interval = dt.timedelta(minutes=2)  # set the interval for sending the email
 
 dtc = DoubtfireTrackChanges(cursor)
 
-dtc.check_task_status_changed_at(units_with_tasks)
+dtc.check_task_status_changed(units_with_tasks)
