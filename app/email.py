@@ -49,7 +49,7 @@ class EmailSender:
         server.quit()
 
     def send_message_send_grid(self,message):
-        sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+        sg = SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
         from_email = Email(self.SENDER_EMAIL)
         to_email = To(self.RECEIVER_EMAIL)
         subject = "Task status changed"
