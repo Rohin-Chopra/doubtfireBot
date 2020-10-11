@@ -13,12 +13,8 @@ cursor = mydb.cursor()
 ds = DoubtfireScraper()
 ds.login()
 
+units = ds.find_units()
 units_with_tasks = ds.find_units_tasks(units)
-
-first_scan_time = dt.datetime.now() + dt.timedelta(
-    minutes=2
-)  # set your sending time in UTC
-interval = dt.timedelta(minutes=2)  # set the interval for sending the email
 
 dtc = DoubtfireTrackChanges(cursor)
 
