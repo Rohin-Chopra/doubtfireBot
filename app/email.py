@@ -2,6 +2,9 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from string import Template
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import *
 
 class EmailSender:
     def __init__(self, name, unit_name, task_no, status, filename):
@@ -45,8 +48,21 @@ class EmailSender:
         server.send_message(message)
         server.quit()
 
+    def send_message_send_grid(self,message):
+        sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+        from_email = Email(self.SENDER_EMAIL)
+        to_email = To(self.RECEIVER_EMAIL)
+        subject = "Task status changed"
+        content = Content("text/plain", message)
+        mail = Mail(from_email, to_email, subject, content)
+        response = sg.client.mail.send.post(request_body=mail.get())
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+
     def send(self):
-        server = self.start_server()
+        # server = self.start_server()
         body = self.replace_values(self.read_template())
         message = self.create_message(body)
-        self.send_message(server, message)
+        # self.send_message(server, message)
+        self.send_message_send_grid(message)
