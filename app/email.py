@@ -34,19 +34,7 @@ class EmailSender:
         message["From"] = self.SENDER_EMAIL
         message["To"] = self.RECEIVER_EMAIL
         message["Subject"] = "Status Changed"
-        # message.attach(MIMEText(body, "plain"))
         return message
-
-    def start_server(self):
-        server = smtplib.SMTP(host="smtp.gmail.com", port=587)
-        server.ehlo()  # * sends a hello message
-        server.starttls()
-        server.login(self.SENDER_EMAIL, "ilypython")
-        return server
-
-    def send_message(self, server, message):
-        server.send_message(message)
-        server.quit()
 
     def send_message_send_grid(self,message):
         sg = SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))

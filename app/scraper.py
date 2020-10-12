@@ -64,7 +64,7 @@ class DoubtfireScraper:
         username = self.driver.find_element_by_name("username")
         password = self.driver.find_element_by_name("password")
         username.send_keys("s103061563")
-        password.send_keys("Rohin@1212")
+        password.send_keys(os.environ.get("DOUBTFIRE_PASSWORD"))
         self.driver.find_element_by_class_name("btn-primary").click()
         print("Waiting for redirect")
         time.sleep(10)
