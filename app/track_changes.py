@@ -30,7 +30,8 @@ class DoubtfireTrackChanges:
                 self.cursor.execute(
                     f"SELECT * FROM tasks WHERE unit_id = '{unit_id}' AND task_number='{task_name}'"
                 )
-                if self.cursor.fetchall()[0][1] != task_status:
+                try:
+                    if self.cursor.fetchall()[0][1] != task_status:
                     print('found one changed')
                     print(task)
                     email = EmailSender(
@@ -42,6 +43,8 @@ class DoubtfireTrackChanges:
                     )
                     self.cursor.execute("COMMIT")
                     
+                except IndexError:
+                    print('index error')
     def check_task_status_changed_at(self, get_units, send_time):
         print('about to sleep')
         time.sleep(send_time.timestamp() - time.time())
