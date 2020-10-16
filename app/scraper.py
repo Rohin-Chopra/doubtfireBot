@@ -44,13 +44,14 @@ class DoubtfireScraper:
     def find_unit_tasks(self, unit_url):
         tasks = []
         self.create_soup(unit_url)
-        for task in self.soup.find(
+        for div in self.soup.findAll(
             "div", {"class": "groupset-tasks clearfix ng-scope"}
-        ).findChildren("li", {"class": "col-xs-4 col-sm-3 col-md-2 col-lg-4 ng-scope"}):
-            btn = task.find("button")
-            tasks.append(
-                {"name": btn.text.strip(), "status": btn.attrs["class"][-1].strip()}
-            )
+        ):
+            for task in div.findChildren("li", {"class": "col-xs-4 col-sm-3 col-md-2 col-lg-4 ng-scope"}):
+                btn = task.find("button")
+                tasks.append(
+                    {"name": btn.text.strip(), "status": btn.attrs["class"][-1].strip()}
+                )
         return tasks
 
     def find_units_tasks(self, units):

@@ -44,15 +44,12 @@ class EmailSender:
         content = Content("text/plain", message)
         mail = Mail(from_email, to_email, subject, content)
         response = sg.client.mail.send.post(request_body=mail.get())
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
+
 
     def send(self):
-        # server = self.start_server()
         print('sending email')
         body = self.replace_values(self.read_template())
-        # message = self.create_message(body)
-        # self.send_message(server, message)
         self.send_message_send_grid(body)
         print('sent')
+
+print("hello world")
