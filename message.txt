@@ -1,2 +1,0 @@
-Hey,${NAME}
-Your task ${TASK_NO} of unit ${UNIT_NAME}, has been updated to the status of ${STATUS}.
