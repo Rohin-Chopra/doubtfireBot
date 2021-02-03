@@ -1,8 +1,8 @@
+const sequelize = require("./../sequelize");
+
 const dotenv = require("dotenv");
 
 dotenv.config({});
-
-const sequelize = require("./../sequelize");
 
 sequelize
   .authenticate()

@@ -1,3 +1,7 @@
+const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config({ path: path.join(__dirname, ".env") });
+
 const { Sequelize } = require("sequelize");
 const pg = require("pg");
 const { addAssociations } = require("./extraSetup");
@@ -19,5 +23,6 @@ const modelDefiners = [
 ];
 
 modelDefiners.forEach((modelDefiner) => modelDefiner(sequelize));
+addAssociations(sequelize);
 
 module.exports = sequelize;
