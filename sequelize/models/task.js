@@ -15,6 +15,3 @@ module.exports = (sequelize) =>
       type: DataTypes.STRING,
     },
   });
-
-// Task.hasMany(Student);
-// Task.belongsTo(Unit);

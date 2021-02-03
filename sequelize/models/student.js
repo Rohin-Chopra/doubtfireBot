@@ -39,6 +39,3 @@ module.exports = (sequelize) => {
     user.studentPassword = encryptedPassword;
   });
 };
-
-// Student.belongsTo(Task);
-// Student.belongsToMany(Unit, { through: "Enrollment" });

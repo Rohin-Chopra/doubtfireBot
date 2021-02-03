@@ -16,6 +16,3 @@ module.exports = (sequelize) =>
       allowNull: false,
     },
   });
-
-// Unit.hasMany(Task, { foreignKey: "code" });
-// Unit.belongsToMany(Student, { through: "Enrollment" });
