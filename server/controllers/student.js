@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const Student = require("./../models/student");
+const { Student } = require("./../../sequelize").models;
 
 exports.signUp = asyncHandler(async (req, res, next) => {
   const student = await Student.create(req.body);
