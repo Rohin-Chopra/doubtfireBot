@@ -5,6 +5,7 @@ module.exports = (sequelize) =>
     taskNo: {
       type: DataTypes.STRING,
       allowNull: false,
+      primaryKey: true,
     },
     unitCode: {
       type: DataTypes.STRING,
