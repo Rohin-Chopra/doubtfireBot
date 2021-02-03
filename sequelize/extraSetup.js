@@ -1,12 +1,12 @@
 exports.addAssociations = (sequelize) => {
-  const { student, unit, task } = sequelize.models;
+  const { Student, Unit, Task } = sequelize.models;
 
-  task.hasMany(student);
-  student.belongsTo(task);
+  Task.hasMany(Student);
+  Student.belongsTo(Task);
 
-  student.belongsToMany(task, { through: "Enrollment" });
-  unit.belongsToMany(student, { through: "Enrollment" });
+  Student.belongsToMany(Task, { through: "Enrollment" });
+  Unit.belongsToMany(Student, { through: "Enrollment" });
 
-  task.belongsTo(unit);
-  unit.hasMany(task);
+  Task.belongsTo(Unit);
+  Unit.hasMany(Task);
 };
