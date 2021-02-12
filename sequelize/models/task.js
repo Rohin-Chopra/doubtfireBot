@@ -1,17 +1,26 @@
-const { DataTypes } = require("sequelize");
-
-module.exports = (sequelize) =>
-  sequelize.define("Task", {
-    taskNo: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
+'use strict'
+const { Model } = require('sequelize')
+module.exports = (sequelize, DataTypes) => {
+  class Task extends Model {
+    static associate(models) {
+      this.belongsToMany(models.Unit, {
+        through: models.UnitTask,
+        foreignKey: 'task_name'
+      })
+      this.belongsToMany(models.User, {
+        through: models.UserTask,
+        foreignKey: 'task_name'
+      })
+    }
+  }
+  Task.init(
+    {
+      name: { type: DataTypes.STRING, primaryKey: true }
     },
-    unitCode: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    status: {
-      type: DataTypes.STRING,
-    },
-  });
+    {
+      sequelize,
+      modelName: 'Task'
+    }
+  )
+  return Task
+}
