@@ -1,25 +1,21 @@
-const sequelize = require("./../sequelize");
+const dotenv = require('dotenv')
+dotenv.config()
 
-const dotenv = require("dotenv");
+const sequelize = require('./../sequelize/models')
 
-dotenv.config({});
+sequelize.start()
 
-sequelize
-  .authenticate()
-  .then(() => console.log("database connected"))
-  .catch((err) => console.error(err));
+const app = require('./app')
+const cron = require('node-cron')
+const scrape = require('./../scraper')
 
-const app = require("./app");
-const cron = require("node-cron");
-
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
+  console.log(`listening on port ${port}`)
+})
 
-let times = 1;
-
-// cron.schedule("* * * * *", () => {
-//   console.log(`hello there ${times++}`);
-// });
+cron.schedule('* * * * *', async () => {
+  console.log('about to scrape')
+  await scrape(sequelize)
+})
