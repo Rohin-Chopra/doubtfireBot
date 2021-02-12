@@ -1,0 +1,7 @@
+Hi {NAME},
+
+Your Task status of task 
+{TASKNAME} of unit {UNIT_NAME} has been updated to the status of {TASK_STATUS}
+
+Regards,
+Your bot.
