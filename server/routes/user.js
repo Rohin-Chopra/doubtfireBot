@@ -1,6 +1,6 @@
 const { Router } = require('express')
-const { getUser, signUp } = require('../controllers/user')
-const { protect } = require('../controllers/auth')
+const { getUser } = require('../controllers/user')
+const { protect, signUp } = require('../controllers/auth')
 
 const router = new Router()
 
