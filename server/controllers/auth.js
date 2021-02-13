@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs')
+const catchAsync = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 const sequelize = require('./../../sequelize/models')
 const { User } = sequelize
@@ -8,7 +8,7 @@ const signToken = (id) =>
     expiresIn: '1d'
   })
 
-exports.signUp = asyncHandler(async (req, res, next) => {
+exports.signUp = catchAsync(async (req, res, next) => {
   const user = await User.scope('excludePassword').create(req.body)
   const token = signToken(user.id)
   delete user.studentPassword
@@ -22,7 +22,7 @@ exports.signUp = asyncHandler(async (req, res, next) => {
     }
   })
 })
-exports.login = async (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
   // handle invalid data
   if (!req.body.id) {
     return next(new Error('You must provide a student id'))
@@ -44,28 +44,24 @@ exports.login = async (req, res, next) => {
     token,
     message: 'you are logged in'
   })
-}
+})
 
 // protect for JWT
 
-exports.protect = async (req, res, next) => {
-  try {
-    if (!req.headers.authorization) {
-      return next(
-        new Error('You are not logged in! Please log in to access this route')
-      )
-    }
-    const token = req.headers.authorization.split(' ')[1]
-    const decoded = jwt.verify(token, process.env.ENCRYPTION_KEY)
-
-    const user = await User.findByPk(decoded.id)
-    if (!user) {
-      return next(new Error('user not found for this token'))
-    }
-
-    req.user = user
-    next()
-  } catch (error) {
-    console.log(error)
+exports.protect = catchAsync(async (req, res, next) => {
+  if (!req.headers.authorization) {
+    return next(
+      new Error('You are not logged in! Please log in to access this route')
+    )
   }
-}
+  const token = req.headers.authorization.split(' ')[1]
+  const decoded = jwt.verify(token, process.env.ENCRYPTION_KEY)
+
+  const user = await User.findByPk(decoded.id)
+  if (!user) {
+    return next(new Error('user not found for this token'))
+  }
+
+  req.user = user
+  next()
+})
