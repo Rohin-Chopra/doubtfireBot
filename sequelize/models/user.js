@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
   )
   User.addScope('excludePassword', {
     attributes: {
-      exclude: ['student_password', 'password']
+      exclude: ['student_password', 'password', 'createdAt', 'updatedAt']
     }
   })
 
