@@ -11,7 +11,8 @@ const signToken = (id) =>
 exports.signUp = catchAsync(async (req, res, next) => {
   const user = await User.scope('excludePassword').create(req.body)
   const token = signToken(user.id)
-  delete user.studentPassword
+  delete user.dataValues.student_password
+  delete user.dataValues.password
 
   res.status(201).json({
     status: 'success',
@@ -49,6 +50,7 @@ exports.login = catchAsync(async (req, res, next) => {
 // protect for JWT
 
 exports.protect = catchAsync(async (req, res, next) => {
+  console.log(req.headers.authorization)
   if (!req.headers.authorization) {
     return next(
       new Error('You are not logged in! Please log in to access this route')
