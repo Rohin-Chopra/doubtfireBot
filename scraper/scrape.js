@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
-const sendEmail = require('./email')
+const sendEmail = require('./../utils/email')
 
 module.exports = async (sequelize) => {
   try {

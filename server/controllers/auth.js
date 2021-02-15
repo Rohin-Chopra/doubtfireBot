@@ -1,6 +1,9 @@
+const fs = require('fs')
+const path = require('path')
 const catchAsync = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 const sequelize = require('./../../sequelize/models')
+const sendEmail = require('./../../utils/email')
 const { User } = sequelize
 
 const signToken = (id) =>
@@ -9,10 +12,34 @@ const signToken = (id) =>
   })
 
 exports.signUp = catchAsync(async (req, res, next) => {
-  const user = await User.scope('excludePassword').create(req.body)
+  // check if the user already exists
+  const user = (
+    await User.findOrCreate({
+      where: { id: req.body.id },
+      defaults: { ...req.body }
+    })
+  )[0]
+
   const token = signToken(user.id)
   delete user.dataValues.student_password
   delete user.dataValues.password
+
+  fs.readFile(
+    path.join(__dirname, '/../data/signUp.txt'),
+    'utf-8',
+    (err, data) => {
+      if (err) {
+        console.log(err)
+      }
+      const message = data.replace('{NAME}', user.dataValues.first_name)
+      sendEmail({
+        from: 'rohinpython@gmail.com',
+        to: user.dataValues.email,
+        subject: 'Thank you for signing up',
+        text: message
+      })
+    }
+  )
 
   res.status(201).json({
     status: 'success',
@@ -23,6 +50,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
     }
   })
 })
+
 exports.login = catchAsync(async (req, res, next) => {
   // handle invalid data
   if (!req.body.id) {
@@ -47,8 +75,7 @@ exports.login = catchAsync(async (req, res, next) => {
   })
 })
 
-// protect for JWT
-
+// protects private routes
 exports.protect = catchAsync(async (req, res, next) => {
   console.log(req.headers.authorization)
   if (!req.headers.authorization) {

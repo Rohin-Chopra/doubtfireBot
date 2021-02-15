@@ -1,0 +1,7 @@
+Hi {NAME},
+
+Thank you for signing up at doubtfire_notifier. This bot will provide you the functionalities that doubtfire does not provide.
+It will notify you on due tasks a day before and also when a tasks status is changed.
+
+Yours truly,
+Bot
