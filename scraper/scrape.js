@@ -7,17 +7,17 @@ const sendEmail = require('./../utils/email')
 module.exports = async (sequelize) => {
   try {
     let $
-    const browser = await puppeteer.launch({ headless: true })
+    const browser = await puppeteer.launch({ headless: false })
     const page = await browser.newPage()
     await page.goto('https://doubtfire.ict.swin.edu.au/#/home')
 
     const users = await sequelize.User.findAll({
       include: sequelize.Unit
     })
-
+    let i = 0
     for await (const u of users) {
       const user = u.dataValues
-      login(user.id, u.decryptStudentPassword(), page)
+      await login(user.id, u.decryptStudentPassword(), page)
 
       await page.waitForNavigation()
       await page.waitForSelector('.list-group-item')
@@ -26,13 +26,15 @@ module.exports = async (sequelize) => {
 
       const loadedUnits = loadUnits($)
       const units = await saveUnits(loadedUnits, u, sequelize)
-
       const tasks = await loadTasks(units, $, page)
       saveTasks(tasks, u, sequelize)
+      i += 1
+      if (i === users.length) {
+        await browser.close()
+        const { green } = require('chalk')
+        console.log(green('done scraping'))
+      }
     }
-    await browser.close()
-    const { green } = require('chalk')
-    console.log(green('done scraping'))
   } catch (error) {}
 }
 
@@ -66,24 +68,25 @@ const loadUnits = ($) => {
 
 const saveUnits = async (loadedUnits, user, sequelize) => {
   const savedUnits = []
-  for await (const unit of user.Units) {
-    loadedUnits.forEach(async (u) => {
-      if (u.code === unit.dataValues.code) {
-        // if it already exists in Unit and UserUnits
-        savedUnits.push(unit)
-      } else if (
-        !(await sequelize.UserUnit.findOne({
-          where: {
-            unit_code: u.code,
-            user_id: user.dataValues.id
-          }
-        }))
-      ) {
-        const createdUnit = await sequelize.Unit.create(unit)
-        savedUnits.push(createdUnit)
-        await createdUnit.addUser(user)
+
+  for await (const loadedUnit of loadedUnits) {
+    let didUnitExist = false
+    for await (const userUnit of user.Units) {
+      if (loadedUnit.code === userUnit.dataValues.code) {
+        savedUnits.push(userUnit)
+        didUnitExist = true
+        break
       }
-    })
+    }
+
+    if (!didUnitExist) {
+      const [createdUnit] = await sequelize.Unit.findOrCreate({
+        where: { code: loadedUnit.code },
+        defaults: { ...loadedUnit }
+      })
+      savedUnits.push(createdUnit)
+      await createdUnit.addUser(user)
+    }
   }
 
   return savedUnits
@@ -173,4 +176,8 @@ const saveTasks = (tasks, user, sequelize) => {
       console.log(error)
     }
   })
+}
+
+const checkTasksDue = (tasks, u, sequelize) => {
+  tasks.forEach((t) => {})
 }
