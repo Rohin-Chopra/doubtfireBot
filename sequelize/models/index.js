@@ -9,7 +9,11 @@ const config = require(path.join(__dirname, '/../config/config.js'))[env]
 const db = {}
 const chalk = require('chalk')
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, config)
+console.log(process.env.DATABASE_URL)
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  logging: false
+})
 
 fs.readdirSync(__dirname)
   .filter((file) => {
