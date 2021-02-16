@@ -4,6 +4,7 @@ const catchAsync = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 const sequelize = require('./../../sequelize/models')
 const sendEmail = require('./../../utils/email')
+const AppError = require('../utils/appError')
 const { User } = sequelize
 
 const signToken = (id) =>
@@ -13,12 +14,14 @@ const signToken = (id) =>
 
 exports.signUp = catchAsync(async (req, res, next) => {
   // check if the user already exists
-  const user = (
-    await User.findOrCreate({
-      where: { id: req.body.id },
-      defaults: { ...req.body }
-    })
-  )[0]
+  const [user, isCreated] = await User.findOrCreate({
+    where: { id: req.body.id },
+    defaults: { ...req.body }
+  })
+
+  if (!isCreated) {
+    return next(new AppError('A user with this email already exists'))
+  }
 
   const token = signToken(user.id)
   delete user.dataValues.student_password
@@ -54,15 +57,15 @@ exports.signUp = catchAsync(async (req, res, next) => {
 exports.login = catchAsync(async (req, res, next) => {
   // handle invalid data
   if (!req.body.id) {
-    return next(new Error('You must provide a student id'))
+    return next(new AppError('You must provide a student id', 400))
   } else if (!req.body.password) {
-    return next(new Error('You must provide a password'))
+    return next(new AppError('You must provide a password', 400))
   }
 
   // if the user does not exist or the password is invalid
   const user = await User.findByPk(req.body.id)
   if (!user || !user.checkPassword(req.body.password)) {
-    return next(new Error('Invalid username or password'))
+    return next(new AppError('Invalid username or password', 401))
   }
 
   // sign token
@@ -77,10 +80,12 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // protects private routes
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req.headers.authorization)
   if (!req.headers.authorization) {
     return next(
-      new Error('You are not logged in! Please log in to access this route')
+      new AppError(
+        'You are not logged in! Please log in to access this route',
+        401
+      )
     )
   }
   const token = req.headers.authorization.split(' ')[1]
@@ -88,7 +93,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   const user = await User.findByPk(decoded.id)
   if (!user) {
-    return next(new Error('user not found for this token'))
+    return next(new AppError('user not found for this token', 404))
   }
 
   req.user = user
