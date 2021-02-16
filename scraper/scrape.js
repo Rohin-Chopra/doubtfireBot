@@ -177,7 +177,3 @@ const saveTasks = (tasks, user, sequelize) => {
     }
   })
 }
-
-const checkTasksDue = (tasks, u, sequelize) => {
-  tasks.forEach((t) => {})
-}

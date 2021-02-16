@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer')
+const { green } = require('chalk')
 
 module.exports = (mailOptions) => {
   const transporter = nodemailer.createTransport({
@@ -13,7 +14,7 @@ module.exports = (mailOptions) => {
     if (error) {
       console.log(error)
     } else {
-      console.log('Email sent: ' + info.response)
+      console.log(green('Email sent: ' + info.response))
     }
   })
 }
