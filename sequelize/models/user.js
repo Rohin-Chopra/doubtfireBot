@@ -48,7 +48,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-
+      reset_password_code: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      reset_password_code_expires_in: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false

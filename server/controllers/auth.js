@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const bcrypt = require('bcryptjs')
 const catchAsync = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 const sequelize = require('./../../sequelize/models')
@@ -64,7 +65,8 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // if the user does not exist or the password is invalid
   const user = await User.findByPk(req.body.id)
-  if (!user || !user.checkPassword(req.body.password)) {
+
+  if (!(await user.checkPassword(req.body.password)) || !user) {
     return next(new AppError('Invalid username or password', 401))
   }
 
@@ -75,6 +77,92 @@ exports.login = catchAsync(async (req, res, next) => {
     status: 'success',
     token,
     message: 'you are logged in'
+  })
+})
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const id = req.body.id
+
+  const user = await User.findByPk(id)
+  if (!user) {
+    return
+  }
+  const resetPasswordCode = String(Math.floor(100000 + Math.random() * 900000))
+
+  const resetPasswordExpiryDate = new Date()
+  resetPasswordExpiryDate.setMinutes(resetPasswordExpiryDate.getMinutes() + 30)
+
+  const hashedResetPasswordCode = await bcrypt.hash(resetPasswordCode, 12)
+  await User.update(
+    {
+      reset_password_code: hashedResetPasswordCode,
+      reset_password_code_expires_in: resetPasswordExpiryDate
+    },
+    { where: { id: user.dataValues.id } }
+  )
+
+  fs.readFile(
+    path.join(__dirname, '/../data/resetPassword.txt'),
+    'utf-8',
+    (err, data) => {
+      if (err) {
+        return console.log(err)
+      }
+
+      const message = data
+        .replace('{NAME}', user.dataValues.first_name)
+        .replace('{RESET_PASSWORD_CODE}', resetPasswordCode)
+
+      sendEmail({
+        from: 'rohinpython@gmail.com',
+        to: user.dataValues.email,
+        subject: 'Reset Password',
+        text: message
+      })
+    }
+  )
+  res.status(200).json({
+    status: 'success',
+    message: 'If the user exists, we have sent an email to their email'
+  })
+})
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const { code, id, password, confirmPassword } = req.body
+  if (!code) {
+    return next(new AppError('Please specify a reset password code', 400))
+  }
+
+  const user = await User.findByPk(id)
+
+  if (!user) {
+    return next(new AppError('User not found for this id', 400))
+  }
+
+  if (!(await bcrypt.compare(code, user.dataValues.reset_password_code))) {
+    return next(new AppError('Invalid reset code'))
+  }
+  if (password !== confirmPassword) {
+    return next(new AppError('passwords do not match', 400))
+  }
+  const newHashedPassword = await bcrypt.hash(password, 12)
+
+  await User.update(
+    {
+      password: newHashedPassword,
+      reset_password_code: null,
+      reset_password_code_expires_in: null
+    },
+    {
+      where: {
+        id
+      }
+    }
+  )
+  res.status(200).json({
+    status: 'success',
+    message:
+      'Your password has been reset, please log in with your new password'
   })
 })
 
