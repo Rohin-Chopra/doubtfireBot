@@ -4,6 +4,7 @@ const handleJwtError = (err, res) =>
   new AppError('Invalid token, Please log in again!', 400)
 
 const sendErrorDev = (err, res) => {
+  console.log(err)
   res.status(err.statusCode).json({
     message: err.message,
     name: err.name,
