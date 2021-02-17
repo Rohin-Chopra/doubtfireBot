@@ -14,7 +14,6 @@ module.exports = async (sequelize) => {
     const users = await sequelize.User.findAll({
       include: sequelize.Unit
     })
-    let i = 0
     for await (const u of users) {
       const user = u.dataValues
       await login(user.id, u.decryptStudentPassword(), page)
@@ -28,9 +27,7 @@ module.exports = async (sequelize) => {
       const units = await saveUnits(loadedUnits, u, sequelize)
       const tasks = await loadTasks(units, $, page, browser)
       saveTasks(tasks, u, sequelize)
-      i += 1
-      if (i === users.length) {
-      }
+      logout(page)
     }
     await browser.close()
     const { green } = require('chalk')
@@ -44,6 +41,16 @@ const login = async (username, password, page) => {
   await page.click('button[type=submit]')
 }
 
+const logout = async (page) => {
+  await page.click('a.dropdown-toggle.ng-binding')
+  await page.evaluate(() =>
+    document
+      .querySelector(
+        'body > div:nth-child(1) > nav > div.collapse.navbar-collapse.ng-hide > ul > li.dropdown.open > ul > li:nth-child(6) > a'
+      )
+      .click()
+  )
+}
 const loadUnits = ($) => {
   const units = []
   $('.list-group-item-heading', '.list-group-item')
@@ -129,9 +136,7 @@ const loadTasks = async (units, $, page, browser) => {
             .querySelector('.nav.nav-tabs.nav-justified')
             .firstElementChild.click()
         })
-        if (handles[0] === handle) {
-          task.dueDate = new Date()
-        }
+
         tasks.push(task)
         index++
       } catch (error) {
