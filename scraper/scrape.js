@@ -3,7 +3,6 @@ const path = require('path')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
 const sendEmail = require('./../utils/email')
-const delay = require('./../utils/delay')
 
 module.exports = async (sequelize) => {
   try {
