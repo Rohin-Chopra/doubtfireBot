@@ -3,6 +3,7 @@ const path = require('path')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
 const sendEmail = require('./../utils/email')
+const { red, blue, green } = require('chalk')
 
 module.exports = async (sequelize) => {
   try {
@@ -27,12 +28,15 @@ module.exports = async (sequelize) => {
       const units = await saveUnits(loadedUnits, u, sequelize)
       const tasks = await loadTasks(units, $, page, browser)
       saveTasks(tasks, u, sequelize)
-      logout(page)
+      await logout(page)
     }
+    await page.close()
     await browser.close()
-    const { green } = require('chalk')
+    console.log('gotcha')
     console.log(green('done scraping'))
-  } catch (error) {}
+  } catch (error) {
+    console.log(red(error))
+  }
 }
 
 const login = async (username, password, page) => {
@@ -165,7 +169,6 @@ const saveTasks = (tasks, user, sequelize) => {
           }
         })
       )?.dataValues?.status
-      const { red, blue } = require('chalk')
 
       if (!existingTask) {
         console.log(blue('does not have any task and i am inserting'))
