@@ -14,7 +14,7 @@ app.listen(port, () => {
   console.log(blue(`listening on port ${port}`))
 })
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('*/15 * * * *', async () => {
   console.log(yellow('about to scrape'))
   await scrape(sequelize)
 })
