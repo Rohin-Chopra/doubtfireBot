@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const sequelize = require('../../sequelize/models')
 const AppError = require('../utils/appError')
-const { User, Task, UserTask } = sequelize
+const { Task, UserTask } = sequelize
 
 exports.getTask = asyncHandler(async (req, res, next) => {
   const task = await Task.findOne({ where: { name: req.body.name } })
