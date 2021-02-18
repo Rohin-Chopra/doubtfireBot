@@ -9,8 +9,13 @@ const config = require(path.join(__dirname, '/../config/config.js'))[env]
 const db = {}
 const chalk = require('chalk')
 
+console.log(process.env.DATABASE_URL)
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: true
+  },
   logging: false
 })
 
