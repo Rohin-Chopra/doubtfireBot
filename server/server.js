@@ -1,4 +1,6 @@
-require('dotenv').config()
+if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config()
+}
 const { blue, yellow } = require('chalk')
 const cron = require('node-cron')
 
