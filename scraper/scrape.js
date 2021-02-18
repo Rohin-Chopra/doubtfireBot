@@ -35,12 +35,11 @@ module.exports = async (sequelize) => {
       await logout(page)
     }
     await page.close()
-    await browser.close()
     console.log(green('done scraping'))
   } catch (error) {
     console.log(red(error))
-    await browser.close()
   } finally {
+    await browser.close()
   }
 }
 
