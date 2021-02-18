@@ -8,7 +8,10 @@ const { red, blue, green } = require('chalk')
 module.exports = async (sequelize) => {
   try {
     let $
-    const browser = await puppeteer.launch({ headless: false })
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    })
     const page = await browser.newPage()
     await page.goto('https://doubtfire.ict.swin.edu.au/#/home')
 
