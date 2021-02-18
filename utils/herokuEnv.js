@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-const { parsed } = dotenv.config({ path: './../server/.env' })
+const { parsed } = dotenv.config({ path: './../.env' })
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 
