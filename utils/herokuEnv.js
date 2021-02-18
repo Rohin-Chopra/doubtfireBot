@@ -15,6 +15,8 @@ async function setEnvVars(variables) {
 for (const envs in parsed) {
   if (envs === 'DATABASE_URL') {
     continue
+  } else if (envs === 'NODE_ENV') {
+    parsed[envs] = 'production'
   }
   setEnvVars([[envs, parsed[envs]]])
 }

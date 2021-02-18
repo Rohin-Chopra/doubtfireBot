@@ -14,7 +14,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
-    ssl: true
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+    }
   },
   logging: false
 })
@@ -48,6 +51,7 @@ db.start = async () => {
     console.log(chalk.green('database connected'))
     await sequelize.sync()
   } catch (error) {
+    console.log(error)
     console.log(chalk.red('connection to Database FAILED'))
     process.exit(1)
   }
