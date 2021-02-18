@@ -7,6 +7,7 @@ const { red, blue, green } = require('chalk')
 
 module.exports = async (sequelize) => {
   try {
+    console.log('starting')
     let $
     const browser = await puppeteer.launch({
       headless: true,
@@ -35,10 +36,11 @@ module.exports = async (sequelize) => {
     }
     await page.close()
     await browser.close()
-    console.log('gotcha')
     console.log(green('done scraping'))
   } catch (error) {
     console.log(red(error))
+    await browser.close()
+  } finally {
   }
 }
 
