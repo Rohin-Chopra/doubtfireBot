@@ -15,8 +15,17 @@ exports.getUnit = asyncHandler(async (req, res, next) => {
 })
 
 exports.getUnits = asyncHandler(async (req, res, next) => {
-  const units = await Unit.findAll()
+  let units
 
+  if (req.user) {
+    units = await req.user.getUnits({ attributes: ['name', 'code', 'link'] })
+    units = units.map((unit) => ({
+      ...unit.dataValues,
+      UserUnit: undefined
+    }))
+  } else {
+    units = await Unit.findAll()
+  }
   res.status(200).json({
     status: 'success',
     results: units.length,

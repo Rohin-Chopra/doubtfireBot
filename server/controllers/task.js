@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const sequelize = require('../../sequelize/models')
 const AppError = require('../utils/appError')
-const { User, Task } = sequelize
+const { User, Task, UserTask } = sequelize
 
 exports.getTask = asyncHandler(async (req, res, next) => {
   const task = await Task.findOne({ where: { name: req.body.name } })
@@ -15,8 +15,17 @@ exports.getTask = asyncHandler(async (req, res, next) => {
 })
 
 exports.getTasks = asyncHandler(async (req, res, next) => {
-  const tasks = await Task.findAll()
-
+  let tasks
+  if (req.user) {
+    tasks = await UserTask.findAll({
+      where: {
+        user_id: req.user.id
+      },
+      attributes: [['task_name', 'name'], 'status']
+    })
+  } else {
+    tasks = await Task.findAll()
+  }
   res.status(200).json({
     status: 'success',
     results: tasks.length,
