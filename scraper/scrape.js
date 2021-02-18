@@ -6,13 +6,13 @@ const sendEmail = require('./../utils/email')
 const { red, blue, green } = require('chalk')
 
 module.exports = async (sequelize) => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  })
   try {
     console.log('starting')
     let $
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    })
     const page = await browser.newPage()
     await page.goto('https://doubtfire.ict.swin.edu.au/#/home')
 
