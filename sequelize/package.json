@@ -1,0 +1,29 @@
+{
+  "name": "@rohin1212/doubtfire-bot-sequelize",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Rohin Chopra",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/Rohin1212"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:Rohin1212/doubtfireBot.git",
+    "directory": "@Rohin1212/doubtfireBot"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "chalk": "^4.1.0",
+    "cryptr": "^6.0.2",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.5.0",
+    "dotenv": "^8.2.0"
+  },
+  "license": "ISC"
+}
