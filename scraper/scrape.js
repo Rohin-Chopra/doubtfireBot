@@ -8,7 +8,7 @@ const { red, blue, green } = require('chalk')
 module.exports = async (sequelize) => {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote']
+    args: ['--no-sandbox']
   })
   try {
     console.log('starting')
@@ -44,6 +44,7 @@ module.exports = async (sequelize) => {
 }
 
 const login = async (username, password, page) => {
+  console.log('logging in')
   await page.type('input[type=username]', username)
   await page.type('input[type=password]', password)
   await page.click('button[type=submit]')
@@ -175,15 +176,10 @@ const saveTasks = (tasks, user, sequelize) => {
       )?.dataValues?.status
 
       if (!existingTask) {
-        console.log(blue('does not have any task and i am inserting'))
-
         const createdTask = await sequelize.Task.create(task)
         await createdTask.addUnit(task.unit, { status: task.status })
         await createdTask.addUser(user)
       } else if (!(await existingTask.hasUser(user))) {
-        console.log(red('does not have any user and i am inserting'))
-        console.log(await existingTask.hasUser(user))
-
         await existingTask.addUser(user)
       } else if (existingTaskStatus !== task.status) {
         fs.readFile(
