@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const catchAsync = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 const sequelize = require('./../../sequelize/models')
-const sendEmail = require('./../../utils/email')
+const sendEmail = require('./../utils/email')
 const AppError = require('../utils/appError')
 const { User } = sequelize
 

@@ -2,8 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
-const sendEmail = require('./../utils/email')
-const { red, blue, green } = require('chalk')
+const sendEmail = require('./utils/email')
+const { red, green } = require('chalk')
 
 module.exports = async (sequelize) => {
   const browser = await puppeteer.launch({

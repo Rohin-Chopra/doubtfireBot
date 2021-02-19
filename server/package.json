@@ -12,11 +12,12 @@
   "author": "Rohin Chopra",
   "license": "ISC",
   "dependencies": {
+    "@Rohin1212/doubtfire-bot-sequelize": "^1.0.2",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
-    "jsonwebtoken": "^8.5.1",
-    "dotenv": "^8.2.0"
+    "jsonwebtoken": "^8.5.1"
   }
 }

@@ -1,10 +1,9 @@
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config()
 }
-const { blue, yellow } = require('chalk')
-// const cron = require('node-cron')
+const { blue } = require('chalk')
 
-const sequelize = require('./../sequelize/models')
+const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
 sequelize.start()
 
 const app = require('./app')
@@ -17,8 +16,3 @@ app.listen(port, () => {
 })
 
 scrape(sequelize)
-
-// cron.schedule('*/15 * * * *', async () => {
-//   console.log(yellow('about to scrape'))
-//   await scrape(sequelize)
-// })
