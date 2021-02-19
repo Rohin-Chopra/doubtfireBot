@@ -8,7 +8,7 @@ const { red, blue, green } = require('chalk')
 module.exports = async (sequelize) => {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--incognito', '--no-sandbox', '--single-process', '--no-zygote']
   })
   try {
     console.log('starting')
@@ -227,6 +227,7 @@ const saveTasks = (tasks, user, sequelize) => {
             if (err) {
               console.log(err)
             }
+
             const message = data
               .replace('{TASKNAME}', task.name)
               .replace('{UNIT_NAME}', task.unit.code)
