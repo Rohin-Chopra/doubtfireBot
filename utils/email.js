@@ -3,7 +3,7 @@ const { green } = require('chalk')
 
 module.exports = (mailOptions) => {
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_SERVICE,
+    service: process.env.EMAIL_SERVICE,
     port: process.env.EMAIL_PORT,
     auth: {
       user: process.env.EMAIL_USER,
