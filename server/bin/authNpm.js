@@ -9,7 +9,7 @@ function writeRegistryFile() {
 
   // Grab values from Environment variables (highly recommended)
   const registryUrl = String(process.env.REGISTRY_URL)
-  const scope = String(process.env.GITHUB_SCOPE).toLowerCase()
+  const scope = String(process.env.GITHUB_SCOPE)
 
   // Output the values (helps with debugging)
   console.log('npmrc: ', npmrc)
