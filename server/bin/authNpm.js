@@ -20,7 +20,7 @@ function writeRegistryFile() {
   const authString =
     registryUrl.replace(/(^\w+:|^)/, '') +
     `:_authToken=${process.env.NPM_TOKEN}`
-  const registryString = `${scope}:registry=${registryUrl}`
+  const registryString = `registry=${registryUrl}/${scope}`
 
   const contents = `${registryString}${os.EOL}${authString}${os.EOL}`
 
