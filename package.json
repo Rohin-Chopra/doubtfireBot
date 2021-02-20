@@ -20,6 +20,8 @@
     "url": "https://github.com/Rohin1212/DoubtFireBot/issues"
   },
   "homepage": "https://github.com/Rohin1212/DoubtFireBot#readme",
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  },
   "devDependencies": {}
 }

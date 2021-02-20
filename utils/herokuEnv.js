@@ -1,10 +1,9 @@
 const dotenv = require('dotenv')
 const { parsed } = dotenv.config({
-  path: `./../process.argv[2] ` || './../.env'
+  path: `./../${process.argv[2]}/.env` || './../.env'
 })
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
-
 async function setEnvVars(variables) {
   for await (const variable of variables) {
     const { stdout, stderr } = await exec(
