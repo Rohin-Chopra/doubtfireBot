@@ -18,7 +18,8 @@ function writeRegistryFile() {
 
   // NPM_TOKEN always lives in the environment variables, but it's handled by NPM
   const authString =
-    registryUrl.replace(/(^\w+:|^)/, '') + `:_authToken=${NPM_TOKEN}`
+    registryUrl.replace(/(^\w+:|^)/, '') +
+    `:_authToken=${process.env.NPM_TOKEN}`
   const registryString = `${scope}:registry=${registryUrl}`
 
   const contents = `${registryString}${os.EOL}${authString}${os.EOL}`
