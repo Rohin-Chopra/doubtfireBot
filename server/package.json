@@ -15,7 +15,7 @@
   "author": "Rohin Chopra",
   "license": "ISC",
   "dependencies": {
-    "@Rohin1212/doubtfire-bot-sequelize": "^1.0.5",
+    "@rohin1212/doubtfire-bot-sequelize": "^1.0.5",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
