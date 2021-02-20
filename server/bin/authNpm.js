@@ -22,7 +22,7 @@ function writeRegistryFile() {
     `:_authToken=${process.env.NPM_TOKEN}`
   const registryString = `${scope}:registry=${registryUrl}`
 
-  const contents = `${authString}${os.EOL}${registryString}${os.EOL}`
+  const contents = `${registryString}${os.EOL}${authString}${os.EOL}`
 
   fs.writeFileSync(npmrc, contents)
 }
