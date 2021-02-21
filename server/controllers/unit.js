@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler')
-const sequelize = require('../../sequelize/models')
+const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
 const AppError = require('../utils/appError')
 const { Unit } = sequelize
 
