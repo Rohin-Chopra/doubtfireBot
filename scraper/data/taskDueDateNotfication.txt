@@ -1,4 +1,4 @@
-Hi {NAME},
+Hi {NAME}
 
 Your Task {TASKNAME} of unit {UNIT_NAME} is due in 1 day. Don't forget to submit it!
 
