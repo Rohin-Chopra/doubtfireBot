@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "debug": "ndb index.js",
     "publishtoheroku": "cd .. & git subtree push --prefix scraper heroku-scraper master",
     "heroku-prebuild": "node ./bin/authNpm.js"
