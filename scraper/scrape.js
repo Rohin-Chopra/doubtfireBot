@@ -30,10 +30,9 @@ module.exports = async (sequelize) => {
       console.log('loading units')
       const loadedUnits = loadUnits($)
       const units = await saveUnits(loadedUnits, u, sequelize)
-      console.log(units)
       const tasks = await loadTasks(units, $, page, browser)
-      // saveTasks(tasks, u, sequelize)
-      // await logout(page)
+      saveTasks(tasks, u, sequelize)
+      await logout(page)
     }
     await page.close()
     console.log(green('done scraping'))
@@ -111,52 +110,24 @@ const saveUnits = async (loadedUnits, user, sequelize) => {
 
 const loadTasks = async (units, $, page, browser) => {
   const tasks = []
+
   for await (const u of units) {
     const unit = u.dataValues
     await page.goto(`https://doubtfire.ict.swin.edu.au/${unit.link}`)
     await page.waitForSelector('.project-tasks-list')
-    $ = cheerio.load(await page.content())
-
-    const handles = await page.$$('.btn.task-status')
-
-    let index = 0
-    for (const handle of handles) {
-      try {
-        console.log(`task no. ${index} of unit ${unit.name}`)
-        const task = {
-          name: (await page.evaluate((hl) => hl.textContent, handle)).trim(),
-          status: await page.evaluate((hl) => hl.classList[3], handle),
-          unit: u
-        }
-        await page.evaluate((index) => {
-          const elements = [...document.querySelectorAll('.btn.task-status')]
-          return elements[index].click()
-        }, index)
-
-        await page.waitForSelector('.task-viewer-toolbar')
-        $ = cheerio.load(await page.content())
-        task.dueDate = new Date(
-          $('.label.label-warrning.ng-scope .ng-binding')
-            .text()
-            .trim()
-            .replace(/Deadline/g, '')
-            .trim()
-        )
-        await page.evaluate(() => {
-          return document
-            .querySelector('.nav.nav-tabs.nav-justified')
-            .firstElementChild.click()
-        })
-
-        tasks.push(task)
-        index++
-      } catch (error) {
-        console.log(error)
-        if (error.name !== 'TypeError') {
-          throw error
-        }
-      }
-    }
+    const parsedTasks = JSON.parse(
+      await page.evaluate(
+        'JSON.stringify(angular.element(document.querySelector("#projects-show > div > div.ng-scope > div.row > project-progress-dashboard > div > div.col-md-4.col-md-push-8 > div > div:nth-child(1) > div > div.panel-body > ul > div")).scope().relatedTasks)'
+      )
+    )
+    parsedTasks.forEach((t) => {
+      tasks.push({
+        name: t.definition.abbreviation,
+        status: t.status,
+        unit: u,
+        dueDate: t.definition.due_date
+      })
+    })
   }
 
   return tasks
@@ -180,9 +151,9 @@ const saveTasks = (tasks, user, sequelize) => {
       if (!existingTask) {
         const createdTask = await sequelize.Task.create(task)
         await createdTask.addUnit(task.unit, { status: task.status })
-        await createdTask.addUser(user)
+        await existingTask.addUser(user, { through: { status: task.status } })
       } else if (!(await existingTask.hasUser(user))) {
-        await existingTask.addUser(user)
+        await existingTask.addUser(user, { through: { status: task.status } })
       } else if (existingTaskStatus !== task.status) {
         fs.readFile(
           path.join(__dirname, 'data/taskStatusChanged.txt'),
