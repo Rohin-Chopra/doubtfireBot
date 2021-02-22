@@ -122,6 +122,7 @@ const loadTasks = async (units, $, page, browser) => {
     let index = 0
     for (const handle of handles) {
       try {
+        console.log(`task no. ${index} of unit ${unit.name}`)
         const task = {
           name: (await page.evaluate((hl) => hl.textContent, handle)).trim(),
           status: await page.evaluate((hl) => hl.classList[3], handle),
