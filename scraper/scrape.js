@@ -29,8 +29,9 @@ module.exports = async (sequelize) => {
       $ = cheerio.load(await page.content())
       console.log('loading units')
       const loadedUnits = loadUnits($)
-      console.log(loadedUnits)
-      // const units = await saveUnits(loadedUnits, u, sequelize)
+      const units = await saveUnits(loadedUnits, u, sequelize)
+      console.log(units)
+
       // const tasks = await loadTasks(units, $, page, browser)
       // saveTasks(tasks, u, sequelize)
       // await logout(page)
