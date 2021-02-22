@@ -27,12 +27,13 @@ module.exports = async (sequelize) => {
       await page.waitForSelector('.list-group-item')
 
       $ = cheerio.load(await page.content())
-
+      console.log('loading units')
       const loadedUnits = loadUnits($)
-      const units = await saveUnits(loadedUnits, u, sequelize)
-      const tasks = await loadTasks(units, $, page, browser)
-      saveTasks(tasks, u, sequelize)
-      await logout(page)
+      console.log(loadedUnits)
+      // const units = await saveUnits(loadedUnits, u, sequelize)
+      // const tasks = await loadTasks(units, $, page, browser)
+      // saveTasks(tasks, u, sequelize)
+      // await logout(page)
     }
     await page.close()
     console.log(green('done scraping'))
