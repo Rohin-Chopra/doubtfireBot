@@ -31,8 +31,7 @@ module.exports = async (sequelize) => {
       const loadedUnits = loadUnits($)
       const units = await saveUnits(loadedUnits, u, sequelize)
       console.log(units)
-
-      // const tasks = await loadTasks(units, $, page, browser)
+      const tasks = await loadTasks(units, $, page, browser)
       // saveTasks(tasks, u, sequelize)
       // await logout(page)
     }
