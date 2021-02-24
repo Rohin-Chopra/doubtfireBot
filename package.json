@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./server/server.js",
     "start:dev": "npm run start:dev --prefix ./server",
-    "setherokuenv": "cd utils && node herokuEnv.js"
+    "setherokuenv": "cd utils && node herokuEnv.js",
+    "set-scraper-heroku-env": "cd utils && node herokuEnv.js server doubtfire-bot-server",
+    "set-server-heroku-env": "cd utils && node herokuEnv.js scraper doubtfirebot"
   },
   "repository": {
     "type": "git",
