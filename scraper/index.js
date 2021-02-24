@@ -1,7 +1,7 @@
 require('dotenv').config({})
 const fs = require('fs')
 const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
-
+const OrdinalSuffixOf = require('./utils/ordinalNumber')
 const scrape = require('./scrape')
 const { yellow } = require('chalk')
 
@@ -23,13 +23,10 @@ if (!fs.existsSync('./times-run.txt')) {
       console.log(err)
     }
   })
-  console.log()
 }
-// read file
-// yes update the content
-// no write the content
+console.log(`this is the ${OrdinalSuffixOf(timesRun)} scraper has been called`)
 
-// sequelize.start().then(() => {
-//   console.log(yellow('about to scrape'))
-//   scrape(sequelize)
-// })
+sequelize.start().then(() => {
+  console.log(yellow('about to scrape'))
+  scrape(sequelize)
+})
