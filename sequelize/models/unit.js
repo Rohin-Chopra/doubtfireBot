@@ -3,9 +3,9 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Unit extends Model {
     static associate(models) {
-      this.belongsToMany(models.Task, {
+      this.hasMany(models.Task, {
         through: models.UnitTask,
-        foreignKey: 'unit_code'
+        foreignKey: { name: 'unit_code', primaryKey: true }
       })
       this.belongsToMany(models.User, {
         through: models.UserUnit,
