@@ -3,19 +3,27 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     static associate(models) {
-      this.belongsToMany(models.Unit, {
+      this.belongsTo(models.Unit, {
         through: models.UnitTask,
-        foreignKey: 'task_name'
-      })
-      this.belongsToMany(models.User, {
-        through: models.UserTask,
         foreignKey: 'task_name'
       })
     }
   }
   Task.init(
     {
-      name: { type: DataTypes.STRING, primaryKey: true }
+      name: {
+        type: DataTypes.STRING,
+        primaryKey: true
+      },
+      unit_code: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        primaryKey: true,
+        references: {
+          model: 'Units',
+          key: 'code'
+        }
+      }
     },
     {
       sequelize,
