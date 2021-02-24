@@ -124,7 +124,7 @@ const loadTasks = async (units, $, page, browser) => {
       tasks.push({
         name: t.definition.abbreviation,
         status: t.status,
-        unit: u,
+        unit_code: u.dataValues.code,
         dueDate: t.definition.due_date
       })
     })
@@ -137,24 +137,35 @@ const saveTasks = (tasks, user, sequelize) => {
   tasks.forEach(async (task) => {
     try {
       const existingTask = await sequelize.Task.findOne({
-        where: { name: task.name }
+        where: {
+          name: task.name,
+          unit_code: task.unit_code
+        }
       })
-      const existingTaskStatus = (
-        await sequelize.UserTask.findOne({
-          where: {
-            task_name: task.name,
-            user_id: user.dataValues.id
-          }
-        })
-      )?.dataValues?.status
-
+      const existingUserTask = await sequelize.sequelize.query(
+        `SELECT status FROM public.\"User_Tasks\" WHERE user_id = '${user.dataValues.id}' AND task_name = '${task.name}'  AND task_unit_code = '${task.unit_code}' `,
+        { type: sequelize.sequelize.QueryTypes.SELECT }
+      )
       if (!existingTask) {
-        const createdTask = await sequelize.Task.create(task)
-        await createdTask.addUnit(task.unit, { status: task.status })
-        await existingTask.addUser(user, { through: { status: task.status } })
-      } else if (!(await existingTask.hasUser(user))) {
-        await existingTask.addUser(user, { through: { status: task.status } })
-      } else if (existingTaskStatus !== task.status) {
+        await sequelize.Task.create(task)
+        await sequelize.sequelize.query(
+          `INSERT INTO public."User_Tasks"(user_id,task_name,task_unit_code,status,created_at,updated_at) VALUES ('${
+            user.dataValues.id
+          }','${task.name}','${task.unit_code}','${
+            task.status
+          }',to_timestamp('${Date.now()}'/ 1000.0),to_timestamp('${Date.now()}'/ 1000.0))`,
+          { type: sequelize.sequelize.QueryTypes.INSERT }
+        )
+      } else if (existingUserTask.length === 0) {
+        await sequelize.sequelize.query(
+          `INSERT INTO public."User_Tasks"(user_id,task_name,task_unit_code,status,created_at,updated_at) VALUES ('${
+            user.dataValues.id
+          }','${task.name}','${task.unit_code}','${
+            task.status
+          }',to_timestamp('${Date.now()}'/ 1000.0),to_timestamp('${Date.now()}'/ 1000.0))`,
+          { type: sequelize.sequelize.QueryTypes.INSERT }
+        )
+      } else if (existingUserTask[0].status !== task.status) {
         fs.readFile(
           path.join(__dirname, 'data/taskStatusChanged.txt'),
           'utf-8',
@@ -164,7 +175,7 @@ const saveTasks = (tasks, user, sequelize) => {
             }
             const message = data
               .replace('{TASKNAME}', task.name)
-              .replace('{UNIT_NAME}', task.unit.code)
+              .replace('{UNIT_NAME}', task.unit_code)
               .replace('{NAME}', user.dataValues.first_name)
               .replace('{TASK_STATUS}', task.status)
             sendEmail({
@@ -175,15 +186,8 @@ const saveTasks = (tasks, user, sequelize) => {
             })
           }
         )
-
-        await sequelize.UserTask.update(
-          { status: task.status },
-          {
-            where: {
-              task_name: task.name,
-              user_id: user.dataValues.id
-            }
-          }
+        await sequelize.sequelize.query(
+          `UPDATE public."User_Tasks" SET status = '${task.status}' WHERE task_name = '${task.name}' AND task_unit_code = '${task.unit_code}' AND user_id = '${user.dataValues.id}'`
         )
       }
       const tomorrow = new Date()
@@ -199,7 +203,7 @@ const saveTasks = (tasks, user, sequelize) => {
 
             const message = data
               .replace('{TASKNAME}', task.name)
-              .replace('{UNIT_NAME}', task.unit.code)
+              .replace('{UNIT_NAME}', task.unit_code)
               .replace('{NAME}', user.dataValues.first_name)
               .replace(
                 '{TASK_DUE_DATE}',
@@ -216,6 +220,8 @@ const saveTasks = (tasks, user, sequelize) => {
           }
         )
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   })
 }
