@@ -1,21 +1,12 @@
-const nodemailer = require('nodemailer')
+const sgMail = require('@sendgrid/mail')
 const { green } = require('chalk')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-module.exports = (mailOptions) => {
-  const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD
-    }
-  })
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log(green('Email sent: ' + info.response))
-    }
-  })
+module.exports = async (msg) => {
+  try {
+    await sgMail.send(msg)
+    console.log(green('Email sent'))
+  } catch (error) {
+    console.log(error)
+  }
 }
