@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const puppeteer = require('puppeteer')
 const sendEmail = require('./utils/email')
-const { red, green } = require('chalk')
+const { red, green, yellow } = require('chalk')
 
 module.exports = async (sequelize) => {
   const browser = await puppeteer.launch({
@@ -10,7 +10,7 @@ module.exports = async (sequelize) => {
     args: ['--no-sandbox']
   })
   try {
-    console.log('starting')
+    console.log(yellow('starting scraping'))
     const page = await browser.newPage()
     await page.goto('https://doubtfire.ict.swin.edu.au/#/home')
 
@@ -24,11 +24,9 @@ module.exports = async (sequelize) => {
       await page.waitForNavigation()
       await page.waitForSelector('.list-group-item')
 
-      console.log('loading units')
-
       const loadedUnits = await loadUnits(page)
-
       const units = await saveUnits(loadedUnits, u, sequelize)
+
       const tasks = await loadTasks(units, page, browser)
       saveTasks(tasks, u, sequelize)
       await logout(page)
@@ -43,7 +41,6 @@ module.exports = async (sequelize) => {
 }
 
 const login = async (username, password, page) => {
-  console.log('logging in')
   await page.type('input[type=username]', username)
   await page.type('input[type=password]', password)
   await page.click('button[type=submit]')
