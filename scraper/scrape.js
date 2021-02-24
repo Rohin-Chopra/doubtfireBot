@@ -1,7 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const puppeteer = require('puppeteer')
-const cheerio = require('cheerio')
 const sendEmail = require('./utils/email')
 const { red, green } = require('chalk')
 
@@ -12,7 +11,6 @@ module.exports = async (sequelize) => {
   })
   try {
     console.log('starting')
-    let $
     const page = await browser.newPage()
     await page.goto('https://doubtfire.ict.swin.edu.au/#/home')
 
@@ -26,11 +24,12 @@ module.exports = async (sequelize) => {
       await page.waitForNavigation()
       await page.waitForSelector('.list-group-item')
 
-      $ = cheerio.load(await page.content())
       console.log('loading units')
-      const loadedUnits = loadUnits($)
+
+      const loadedUnits = await loadUnits(page)
+
       const units = await saveUnits(loadedUnits, u, sequelize)
-      const tasks = await loadTasks(units, $, page, browser)
+      const tasks = await loadTasks(units, page, browser)
       saveTasks(tasks, u, sequelize)
       await logout(page)
     }
@@ -60,25 +59,20 @@ const logout = async (page) => {
       .click()
   )
 }
-const loadUnits = ($) => {
+const loadUnits = async (page) => {
   const units = []
-  $('.list-group-item-heading', '.list-group-item')
-    .toArray()
-    .forEach((h4) => {
-      units.push({
-        name: h4.children[0].data,
-        code: '',
-        link: h4.parent.parent.attribs.href
-      })
+  const parsedUnits = JSON.parse(
+    await page.evaluate(
+      'JSON.stringify(angular.element(document.querySelector("#home > div.row > div > div")).scope().projects)'
+    )
+  )
+  parsedUnits.forEach((u) => {
+    units.push({
+      name: u.unit_name,
+      code: u.unit_code,
+      link: `#/projects/${u.project_id}`
     })
-
-  $('.label-info')
-    .toArray()
-    .forEach((label, index) => {
-      if (index < units.length) {
-        units[index].code = label.children[0].data
-      }
-    })
+  })
   return units
 }
 
@@ -108,7 +102,7 @@ const saveUnits = async (loadedUnits, user, sequelize) => {
   return savedUnits
 }
 
-const loadTasks = async (units, $, page, browser) => {
+const loadTasks = async (units, page, browser) => {
   const tasks = []
 
   for await (const u of units) {
