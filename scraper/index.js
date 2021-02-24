@@ -1,32 +1,29 @@
 require('dotenv').config({})
-const fs = require('fs')
 const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
 const OrdinalSuffixOf = require('./utils/ordinalNumber')
 const scrape = require('./scrape')
-const { yellow } = require('chalk')
+const { green } = require('chalk')
 
-let timesRun = 0
+// code
+;(async () => {
+  await sequelize.start()
+  let timesRun = (await sequelize.Meta.findOne({ attributes: ['timesRun'] }))
+    ?.dataValues?.timesRun
 
-if (!fs.existsSync('./times-run.txt')) {
-  fs.writeFile('./times-run.txt', String(timesRun), (err) => {
-    if (err) {
-      console.log(err)
-    }
-  })
-} else {
-  timesRun = fs.readFileSync('./times-run.txt', {
-    encoding: 'utf8',
-    flag: 'r'
-  })
-  fs.writeFile('./times-run.txt', String(Number(timesRun) + 1), (err) => {
-    if (err) {
-      console.log(err)
-    }
-  })
-}
-console.log(`this is the ${OrdinalSuffixOf(timesRun)} scraper has been called`)
+  if (!timesRun) {
+    timesRun = (await sequelize.Meta.create({ timesRun: 0 })).dataValues
+      .timesRun
+  }
+  timesRun = Number(timesRun) + 1
 
-sequelize.start().then(() => {
-  console.log(yellow('about to scrape'))
-  scrape(sequelize)
-})
+  await scrape(sequelize)
+
+  await sequelize.Meta.update({ timesRun: timesRun }, { where: { id: 1 } })
+  console.log(
+    green(
+      `this is the ${OrdinalSuffixOf(
+        timesRun
+      )} time scraper has been successfully run`
+    )
+  )
+})()

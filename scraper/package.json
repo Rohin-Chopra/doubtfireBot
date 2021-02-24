@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@Rohin1212/doubtfire-bot-sequelize": "^1.0.14",
+    "@Rohin1212/doubtfire-bot-sequelize": "^1.0.17",
     "@sendgrid/mail": "^7.4.2",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
