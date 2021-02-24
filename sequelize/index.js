@@ -1,3 +1,3 @@
-const startDb = require('./models')
+const sequelize = require('./models')
 
-module.exports = startDb
+module.exports = sequelize
