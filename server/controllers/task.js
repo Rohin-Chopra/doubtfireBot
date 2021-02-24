@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
 const AppError = require('../utils/appError')
-const { Task, UserTask } = sequelize
+const { Task } = sequelize
 
 exports.getTask = asyncHandler(async (req, res, next) => {
   const task = await Task.findOne({ where: { name: req.body.name } })
@@ -17,12 +17,10 @@ exports.getTask = asyncHandler(async (req, res, next) => {
 exports.getTasks = asyncHandler(async (req, res, next) => {
   let tasks
   if (req.user) {
-    tasks = await UserTask.findAll({
-      where: {
-        user_id: req.user.id
-      },
-      attributes: [['task_name', 'name'], 'status']
-    })
+    tasks = await sequelize.sequelize.query(
+      `SELECT name, unit_code ,status FROM public."User_Tasks" INNER JOIN public."Tasks" ON name = public."User_Tasks".task_name WHERE user_id = '${req.user.id}'`,
+      { type: sequelize.sequelize.QueryTypes.SELECT }
+    )
   } else {
     tasks = await Task.findAll()
   }
