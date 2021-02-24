@@ -1,3 +1,4 @@
 node_nodules
 .env
 .npmrc
+times-run.txt
