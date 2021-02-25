@@ -11,11 +11,11 @@ app.use(express.json())
 
 app.use('/', authRouter)
 
-app.use('/users', userRouter)
+app.use('/api/users', userRouter)
 
-app.use('/tasks', taskRouter)
+app.use('/api/tasks', taskRouter)
 
-app.use('/units', unitRouter)
+app.use('/api/units', unitRouter)
 
 app.get('/', (req, res) => {
   res.send('Welcome to doubtfirebot scraper!')
