@@ -13,6 +13,9 @@ const signToken = (id) =>
     expiresIn: '1d'
   })
 
+// @desc    Creates new user
+// @route   POST /sign-up
+// @access  Public
 exports.signUp = catchAsync(async (req, res, next) => {
   // check if the user already exists
   const [user, isCreated] = await User.findOrCreate({
@@ -55,6 +58,9 @@ exports.signUp = catchAsync(async (req, res, next) => {
   })
 })
 
+// @desc    Logs a user in and signs a jwt token
+// @route   POST /login
+// @access  Public
 exports.login = catchAsync(async (req, res, next) => {
   // handle invalid data
   if (!req.body.id) {

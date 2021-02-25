@@ -2,6 +2,9 @@ const asyncHandler = require('express-async-handler')
 const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
 const { User } = sequelize
 
+// @desc    Get a user
+// @route   GET /api/users
+// @access  Private
 exports.getUser = asyncHandler(async (req, res, next) => {
   const user = await User.scope('excludePassword').findByPk(req.user.id)
   if (!user) {
@@ -18,6 +21,9 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   })
 })
 
+// @desc    Update a unit
+// @route   PUT /api/units/:name
+// @access  Private
 exports.updateUser = asyncHandler(async (req, res, next) => {
   await User.update(
     {
@@ -42,6 +48,9 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   })
 })
 
+// @desc    Delete a unit
+// @route   DELETE /api/units/:name
+// @access  Private
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   await User.destroy({
     where: {

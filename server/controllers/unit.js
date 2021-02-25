@@ -3,6 +3,9 @@ const sequelize = require('@Rohin1212/doubtfire-bot-sequelize')
 const AppError = require('../utils/appError')
 const { Unit } = sequelize
 
+// @desc    Get a unit
+// @route   GET /api/units/:name
+// @access  Private
 exports.getUnit = asyncHandler(async (req, res, next) => {
   const unit = await Unit.findOne({ where: { code: req.body.code } })
   if (!unit) {
@@ -14,6 +17,9 @@ exports.getUnit = asyncHandler(async (req, res, next) => {
   })
 })
 
+// @desc    Gets units
+// @route   GET /api/units
+// @access  Private
 exports.getUnits = asyncHandler(async (req, res, next) => {
   let units
 
