@@ -18,7 +18,7 @@ app.use('/tasks', taskRouter)
 app.use('/units', unitRouter)
 
 app.get('/', (req, res) => {
-  res.send('hello world')
+  res.send('Welcome to doubtfirebot scraper!')
 })
 
 app.use(errorHandler)
