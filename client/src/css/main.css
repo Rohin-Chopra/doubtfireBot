@@ -1,7 +1,3 @@
-.navbar {
-  border-bottom: 1px solid #000;
-}
-
 .home-hero {
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 67%);
@@ -46,6 +42,7 @@
 }
 .navbar-scrolled {
   background-color: #ffffff;
+  border-bottom: 1px solid #000;
   z-index: 9999;
 }
 .navbar-scrolled a {
