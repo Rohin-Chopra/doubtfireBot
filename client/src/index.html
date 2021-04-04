@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      class="bg-primary navbar sticky top-0 duration-300 transition-colors ease-linear md:px-6 py-4"
+    >
+      <div class="container sm:mx-auto">
+        <div class="flex w-100 justify-between items-center px-4 py-2">
+          <div>
+            <h3 class="text-white prose-2xl">DoubtfireBot</h3>
+          </div>
+          <nav>
+            <ul class="flex">
+              <li class="mr-4">
+                <a class="text-white">Log In</a>
+              </li>
+              <li class="mr-2">
+                <a class="text-white">Sign up</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="bg-primary home-hero pb-20">
+      <div class="container sm:mx-auto pb-4">
+        <div class="row">
+          <div class="md:col-6 lg:col-6 px-2 py-4">
+            <h1 class="text-white prose-xl font-bold">
+              The Features you have always missed on Doubtfire
+            </h1>
+            <p class="text-white prose">
+              With doubtfireBot , never again miss a task's deadline or it's
+              status change
+            </p>
+            <button class="bg-secondary px-2 py-2 shadow-md rounded-md mt-2">
+              Get Started
+            </button>
+          </div>
+          <div class="md:col-6 lg:col-6">
+            <img class="hidden md:block h-96" src="images/robot.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="features" class="container py-8">
+      <h3 class="prose-2xl font-bold text-center mb-2">Why DoubtfireBot?</h3>
+      <div class="row justify-center items-center">
+        <div
+          class="sm:col-12 md:col-4 lg:col-4 xl:col-4 text-center mt-6 md:mt-0"
+        >
+          <img src="images/envelope.svg" alt="" />
+          <h4 class="prose-lg font-semibold">Track task status change</h4>
+          <p>
+            Don't have to manually check on doubtfire for your task status
+            change
+          </p>
+        </div>
+        <div
+          class="sm:col-12 md:col-4 lg:col-4 xl:col-4 text-center mt-6 md:mt-0"
+        >
+          <img src="images/time-sand.svg" alt="" />
+          <h4 class="prose-lg font-semibold">
+            Get notified of a task's due date
+          </h4>
+          <p>
+            Forgot a task's due date? got you covered, doubtfireBot will notify
+            you a day before
+          </p>
+        </div>
+        <div
+          class="sm:col-12 md:col-4 lg:col-4 xl:col-4 text-center mt-6 md:mt-0"
+        >
+          <img src="images/open-source.png" alt="" />
+          <h4 class="prose-lg font-semibold">It is Open Source Software</h4>
+          <p>Feel free to contribute and make it better.</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-primary text-white text-center py-12">
+      <div class="container">
+        <h3 class="prose-2xl">Let's get Started</h3>
+        <h4 class="prose-lg">Don't worry it's free</h4>
+        <button
+          class="bg-secondary px-2 py-2 shadow-md rounded-md mt-2 text-black"
+        >
+          Get Started
+        </button>
+      </div>
+    </div>
+    <footer
+      class="bg-primary vw-100 text-center py-12 text-white"
+      id="main-footer"
+    >
+      <a href="https://github.com/Rohin1212/doubtfireBot">
+        <img src="images/github.png" />
+        <p>View Source</p>
+      </a>
+      <h4>Developed By Rohin Chopra</h4>
+    </footer>
+  </body>
+  <script>
+    window.onscroll = () => {
+      const top = window.pageYOffset || document.documentElement.scrollTop
+      const navbar = document.querySelector('.navbar')
+      if (top > 300) {
+        navbar.classList.add('navbar-scrolled')
+      } else {
+        navbar.classList.remove('navbar-scrolled')
+      }
+    }
+  </script>
+</html>
