@@ -18754,10 +18754,6 @@ video {
   margin-left: 91.66666666666667%;
 }
 
-.navbar {
-  min-height: 100px;
-}
-
 @media (min-width: 640px){
   .sm\:container{
     width: 100%;
