@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   purge: [],
   darkMode: false, // or 'media' or 'class'
@@ -5,8 +7,12 @@ module.exports = {
     colors: {
       primary: '#7868E6',
       secondary: '#E4FBFF',
-      white: '#FFF',
-      black: '#000'
+      white: colors.white,
+      gray: colors.coolGray,
+      blue: colors.lightBlue,
+      red: colors.rose,
+      pink: colors.fuchsia,
+      green: colors.emerald
     },
     extend: {}
   },
@@ -15,6 +21,7 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
     require('tailwind-bootstrap-grid')({
       containerMaxWidths: {
         sm: '540px',
@@ -23,5 +30,6 @@ module.exports = {
         xl: '1140px'
       }
     })
-  ]
+  ],
+  important: false
 }
