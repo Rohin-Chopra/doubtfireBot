@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Archivo:500|Open+Sans:300,700"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/tailwind.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>DoubtfireBot | Sign Up</title>
+  </head>
+  <body>
+    <div
+      class="bg-primary navbar sticky top-0 duration-300 transition-colors ease-linear md:px-6 py-4"
+    >
+      <div class="container sm:mx-auto">
+        <div class="flex w-100 justify-between items-center px-4 py-2">
+          <div>
+            <a href="index.html">
+              <h3 class="text-white prose-2xl">DoubtfireBot</h3>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-primary h-52 curved-section">
+      <div class="container relative z-10 py-4">
+        <div class="px-4 text-white text-center">
+          <h1 class="text-2xl lg:text-4xl">Let's get started</h1>
+          <p class="text-lg">Never miss a tasks' deadline again</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="form-box rounded shadow overflow-hidden sm:rounded-md mx-6 my-0 md:mx-auto relative bg-white"
+      >
+        <form class="px-4 py-5 bg-white sm:p-6" id="sign-up-form">
+          <div class="grid grid-cols-1 gap-6">
+            <div class="col-span-6 sm:col-span-4">
+              <label
+                for="first_name"
+                class="block text-sm font-medium text-primary"
+                >First Name</label
+              >
+              <input
+                type="text"
+                name="first_name"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="first_name_error"></small>
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+              <label
+                for="last_name"
+                class="block text-sm font-medium text-primary"
+                >Last name</label
+              >
+              <input
+                type="text"
+                name="last_name"
+                id="last_name"
+                autocomplete="family-name"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="last_name_error"></small>
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+              <label for="email" class="block text-sm font-medium text-primary"
+                >Email</label
+              >
+              <input
+                type="text"
+                name="email"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="email_error"></small>
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+              <label
+                for="password"
+                class="block text-sm font-medium text-primary"
+                >Password</label
+              >
+              <input
+                type="text"
+                name="password"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="password_error"></small>
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+              <label
+                for="confirm_password"
+                class="block text-sm font-medium text-primary"
+                >Confirm Password</label
+              >
+
+              <input
+                type="text"
+                name="confirm_password"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="confirm_password_error"></small>
+            </div>
+
+            <div class="col-span-6 sm:col-span-4">
+              <label for="id" class="block text-sm font-medium text-primary"
+                >Student Id</label
+              >
+
+              <input
+                type="text"
+                name="id"
+                id="id"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="id_error"></small>
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+              <label
+                for="student_password"
+                class="block text-sm font-medium text-primary has-tooltip"
+                >Doubtfire password
+                <span
+                  class="has-tooltip"
+                  aria-describedby="tooltip"
+                  data-tooltip="Your doubtfire password is needed by the bot to log in, don't worry it will be encrypted"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    class="inline"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z"
+                    />
+                  </svg>
+                  <div
+                    class="tooltip text-sm bg-gray-600 text-gray-100 px-2 absolute rounded bg-opacity-50 mt-1 shadow-xl z-40 hidden"
+                    role="tooltip"
+                  ></div>
+                </span>
+              </label>
+              <input
+                type="text"
+                name="student_password"
+                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+              />
+              <small class="error hidden" id="student_password_error"></small>
+            </div>
+          </div>
+          <button
+            class="py-2 px-4 bg-primary text-white rounded shadow mt-4 w-full inline-flex justify-center"
+          >
+            <svg
+              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden"
+              id="form-loader"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+    <div id="snackbar" class="color-white px-4 py-2 text-white rounded"></div>
+    <footer
+      class="bg-primary vw-100 text-center py-12 text-white"
+      id="main-footer"
+    >
+      <a href="https://github.com/Rohin1212/doubtfireBot">
+        <img src="images/github.png" />
+        <p>View Source</p>
+      </a>
+      <h4>Developed By Rohin Chopra</h4>
+    </footer>
+  </body>
+  <script src="./js/navbar.js"></script>
+  <script src="./js/tooltip.js"></script>
+  <script src="./js/signUp.js"></script>
+</html>
