@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/main.css" />
-    <title>Document</title>
+    <title>DoubtfireBot | Home</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Archivo:500|Open+Sans:300,700"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div
@@ -17,16 +21,6 @@
           <div>
             <h3 class="text-white prose-2xl">DoubtfireBot</h3>
           </div>
-          <nav>
-            <ul class="flex">
-              <li class="mr-4">
-                <a class="text-white">Log In</a>
-              </li>
-              <li class="mr-2">
-                <a class="text-white">Sign up</a>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </div>
@@ -41,9 +35,12 @@
               With doubtfireBot , never again miss a task's deadline or it's
               status change
             </p>
-            <button class="bg-secondary px-2 py-2 shadow-md rounded-md mt-2">
+            <a
+              class="bg-secondary px-2 py-2 shadow-md rounded-md mt-2 text-black inline-block"
+              href="./sign-up.html"
+            >
               Get Started
-            </button>
+            </a>
           </div>
           <div class="md:col-6 lg:col-6">
             <img class="hidden md:block h-96" src="images/robot.png" />
@@ -89,11 +86,12 @@
       <div class="container">
         <h3 class="prose-2xl">Let's get Started</h3>
         <h4 class="prose-lg">Don't worry it's free</h4>
-        <button
-          class="bg-secondary px-2 py-2 shadow-md rounded-md mt-2 text-black"
+        <a
+          class="bg-secondary px-2 py-2 shadow-md rounded-md mt-2 text-black inline-block"
+          href="./sign-up.html"
         >
           Get Started
-        </button>
+        </a>
       </div>
     </div>
     <footer
@@ -107,15 +105,5 @@
       <h4>Developed By Rohin Chopra</h4>
     </footer>
   </body>
-  <script>
-    window.onscroll = () => {
-      const top = window.pageYOffset || document.documentElement.scrollTop
-      const navbar = document.querySelector('.navbar')
-      if (top > 300) {
-        navbar.classList.add('navbar-scrolled')
-      } else {
-        navbar.classList.remove('navbar-scrolled')
-      }
-    }
-  </script>
+  <script src="./js/navbar.js"></script>
 </html>
