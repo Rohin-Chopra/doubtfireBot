@@ -7,9 +7,9 @@ const taskRouter = require('./routes/task')
 const unitRouter = require('./routes/unit')
 const errorHandler = require('./middlewares/error')
 
-app.use(express.json())
-
 app.use(cors())
+
+app.use(express.json())
 
 app.use('/', authRouter)
 

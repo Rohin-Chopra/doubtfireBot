@@ -38,7 +38,6 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     }
   )
   const updatedUser = await User.scope('excludePassword').findByPk(req.user.id)
-  console.log(updatedUser)
   res.status(200).json({
     status: 'success',
     message: 'User updated',
