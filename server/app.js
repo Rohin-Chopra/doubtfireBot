@@ -1,5 +1,5 @@
 const express = require('express')
-
+const cors = require('cors')
 const app = express()
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
@@ -8,6 +8,8 @@ const unitRouter = require('./routes/unit')
 const errorHandler = require('./middlewares/error')
 
 app.use(express.json())
+
+app.use(cors())
 
 app.use('/', authRouter)
 
